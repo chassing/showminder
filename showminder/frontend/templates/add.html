@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}Import new TV Show{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <form class="form" action="{% url 'frontend:add' %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form layout='inline' %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

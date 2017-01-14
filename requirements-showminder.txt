@@ -1,0 +1,4 @@
+imdbpie==4.2.*
+lockfile==0.12.*
+requests==2.12.*
+six==1.10.*

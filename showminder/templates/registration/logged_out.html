@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+
+{% block title %}You are logged out{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <a class="btn btn-primary" href="{% url 'auth:login' %}">Log in again</a>
+    </div>
+{% endblock %}
