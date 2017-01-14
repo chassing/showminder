@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'showminder.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('SHOWMINDER_DB_URL', default='postgres://showminder:showminder@brain.local/showminder-devel')
+    'default': env.db('SHOWMINDER_DB_URL', default='postgres://localhost/showminder-dev')
 }
 
 # Password validation

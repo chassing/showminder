@@ -5,4 +5,4 @@ from .models import *  # noqa
 
 @admin.register(TvShow)
 class TvShowAdmin(admin.ModelAdmin):  # noqa
-    pass
+    readonly_fields = ('last_seen',)

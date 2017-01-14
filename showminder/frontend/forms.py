@@ -4,12 +4,18 @@ from .models import TvShow
 
 
 class ImdbIdForm(forms.Form):  # noqa
-    imdb_id = forms.CharField(label="Imdb ID", help_text="adfadf")
+    imdb_id = forms.CharField(label="Imdb ID")
+    season = forms.IntegerField(initial=1, min_value=1)
+    episode = forms.IntegerField(initial=1, min_value=1)
+    last_seen = forms.DateField()
 
-    def clean_imdb_id(self):
+    def clean(self):
         imdb_id = self.cleaned_data['imdb_id']
+        season = self.cleaned_data['season']
+        episode = self.cleaned_data['episode']
+        last_seen = self.cleaned_data['last_seen']
         try:
-            self._tvshow = TvShow.from_imdb(imdb_id)
+            self._tvshow = TvShow.from_imdb(imdb_id, season, episode, last_seen)
         except:
             raise forms.ValidationError("Imdb ID not found!")
 

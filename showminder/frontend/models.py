@@ -12,15 +12,23 @@ class TvShow(models.Model):
     rating = models.FloatField()
     season = models.IntegerField(default=1)
     episode = models.IntegerField(default=1)
+    last_seen = models.DateField()
 
     class Meta:  # noqa
-        ordering = ['title']
+        ordering = ['-last_seen', 'title']
 
     def __str__(self):  # noqa
         return self.title
 
     @classmethod
-    def from_imdb(cls, imdb_id):
+    def from_imdb(cls, imdb_id, season, episode, last_seen):
         item = imdb.get_title_by_id(imdb_id)
-        tvshow = cls(title=item.title, cover_url=item.cover_url, rating=item.rating)
+        tvshow = cls(
+            title=item.title,
+            cover_url=item.cover_url,
+            rating=item.rating,
+            season=season,
+            episode=episode,
+            last_seen=last_seen,
+        )
         return tvshow

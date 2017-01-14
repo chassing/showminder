@@ -1,6 +1,7 @@
 
 import logging
 
+from datetime import date
 from imdbpie import Imdb
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -53,6 +54,7 @@ class IncSeasonView(RedirectView):  # noqa
         t = get_object_or_404(TvShow, pk=kwargs['tvshow'])
         t.season += 1
         t.episode = 1
+        t.last_seen = date.today()
         t.save()
         return super().get_redirect_url(*args, **kwargs)
 
@@ -64,5 +66,6 @@ class IncEpisodeView(RedirectView):  # noqa
     def get_redirect_url(self, *args, **kwargs):
         t = get_object_or_404(TvShow, pk=kwargs['tvshow'])
         t.episode += 1
+        t.last_seen = date.today()
         t.save()
         return super().get_redirect_url(*args, **kwargs)
