@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import environ
 import os
 
-env = environ.Env()
+env = environ.Env(DEBUG=(bool, False))
 env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qq%%hunk742cce3^^p$f(x6bsxzh)*@$@c_dd^jb@9^+p)&m8#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'showminder.urls'
@@ -121,7 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = '/tmp/static'
+STATIC_ROOT = '/tmp/staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

@@ -1,5 +1,7 @@
 django==1.10.*
 django-bootstrap3==8.1.*
-django-environ==-0.4.*
+django-environ==0.4.*
 psycopg2==2.6.*
 whitenoise==3.2.*
+honcho==0.7.*
+uwsgi==2.0.*
