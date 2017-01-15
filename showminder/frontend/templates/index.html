@@ -31,7 +31,7 @@
             <tbody>
                 {% for t in tvshows %}
                     <tr>
-                        <td>
+                        <td scope="row" width="20%">
                             <a href="{% url 'frontend:detail' tvshow=t.pk %}">
                                 <img src="{{ t.cover_url }}">
                             </a>
