@@ -1,5 +1,6 @@
 
 from datetime import date
+from datetime import datetime
 from django.db import models
 from imdbpie import Imdb
 
@@ -36,6 +37,11 @@ class TvShow(models.Model):
     @classmethod
     def from_imdb(cls, imdb_id, season=0, episode=0):
         item = imdb.get_title_by_id(imdb_id)
+        try:
+            release_date = datetime.strptime(item.release_date, '%Y-%m-%d').date()
+        except:
+            release_date = unix0()
+
         tvshow = cls(
             title=item.title,
             imdb_id=imdb_id,
@@ -44,7 +50,7 @@ class TvShow(models.Model):
             rating=item.rating,
             genres=", ".join(item.genres),
             tagline=item.tagline if item.tagline else "",
-            release_date=item.release_date,
+            release_date=release_date,
             typ=item.type,
             season=season,
             episode=episode,
