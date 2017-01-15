@@ -36,6 +36,7 @@
                             <p>{{ t.title }}</p>
                             <p>S{{ t.season }} / E{{ t.episode }}</p>
                             <p>{{ t.rating }}</p>
+                            <p>{{ t.last_seen }}</p>
                             <p>
                                 <a class="btn btn-success" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true">Episode</span>
