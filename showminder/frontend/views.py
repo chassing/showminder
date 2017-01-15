@@ -46,6 +46,16 @@ class AddView(LoginRequiredMixin, FormView):  # noqa
         return super().form_valid(form)
 
 
+
+class DetailView(LoginRequiredMixin, TemplateView):  # noqa
+    template_name = "detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tvshow'] = get_object_or_404(TvShow, pk=kwargs['tvshow'])
+        return context
+
+
 class IncSeasonView(RedirectView):  # noqa
     permanent = False
     url = "/"

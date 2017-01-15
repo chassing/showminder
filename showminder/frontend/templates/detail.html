@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 %}
+
+{% block title %}{{ tvshow.title }}{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <p class="well">
+            {{ tvshow.tagline }}
+        </p>
+
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ tvshow.cover_url}}">
+            </div>
+            <div class="col-md-8">
+                <video controls>
+                    <source src="{{ tvshow.trailer_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <table id="results" class="table table-hover table-condensed">
+            <tbody>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ tvshow.title }}</td>
+                </tr>
+                <tr>
+                    <th>Imdb ID</th>
+                    <td>{{ tvshow.imdb_id }}</td>
+                </tr>
+                <tr>
+                    <th>Rating</th>
+                    <td>{{ tvshow.rating }}</td>
+                </tr>
+                <tr>
+                    <th>Genres</th>
+                    <td>{{ tvshow.genres }}</td>
+                </tr>
+                <tr>
+                    <th>Release Date</th>
+                    <td>{{ tvshow.release_date }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ tvshow.typ }}</td>
+                </tr>
+                <tr>
+                    <th>Last Seen</th>
+                    <td>{{ tvshow.last_seen }} S{{ tvshow.season }} / E{{ tvshow.episode }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

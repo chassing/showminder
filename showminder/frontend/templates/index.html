@@ -31,7 +31,11 @@
             <tbody>
                 {% for t in tvshows %}
                     <tr>
-                        <td><img src="{{ t.cover_url }}"></td>
+                        <td>
+                            <a href="{% url 'frontend:detail' tvshow=t.pk %}">
+                                <img src="{{ t.cover_url }}">
+                            </a>
+                        </td>
                         <td>
                             <p>{{ t.title }}</p>
                             <p>S{{ t.season }} / E{{ t.episode }}</p>
