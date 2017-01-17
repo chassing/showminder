@@ -52,6 +52,7 @@ class TvShow(models.Model):
             tagline=item.tagline if item.tagline else "",
             release_date=release_date,
             typ=item.type,
+            last_seen=date.today(),
             season=season,
             episode=episode,
         )
