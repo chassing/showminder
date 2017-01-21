@@ -8,7 +8,7 @@ from fabric.api import task
 env.hosts = ['brain']
 env.user = "core"
 
-VERSION = 0.6
+VERSION = 0.8
 
 
 @task
