@@ -8,7 +8,7 @@ from fabric.api import task
 env.hosts = ['brain']
 env.user = "core"
 
-VERSION = 0.9
+VERSION = 0.10
 
 
 @task
@@ -18,9 +18,9 @@ def build():
     run(f'docker service update --image showminder/showminder:{VERSION} showminder')
 
 
-
 @task
 def backup():
     """Create a prod database backup."""
     today = date.today().strftime("%Y-%m-%d")
     local(f"pg_dump --host=brain.local --username=showminder --file=showminder_{today}.sql showminder")
+

@@ -7,6 +7,7 @@
 {% block content %}
     <div class="container-fluid">
         <form class="form" action="{% url 'frontend:add' %}" method="post">
+            <a href="http://www.imdb.com" class="btn btn-lg btn-primary btn-block" target="_blank">IMdb</a>
             {% csrf_token %}
             {% bootstrap_form_errors form %}
             {% bootstrap_form form %}

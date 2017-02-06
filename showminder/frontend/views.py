@@ -79,3 +79,4 @@ class IncEpisodeView(RedirectView):  # noqa
         t.last_seen = date.today()
         t.save()
         return super().get_redirect_url(*args, **kwargs)
+
