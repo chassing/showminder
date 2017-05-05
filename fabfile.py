@@ -8,7 +8,7 @@ from fabric.api import task
 env.hosts = ['brain']
 env.user = "core"
 
-VERSION = '0.10'
+VERSION = '0.11'
 
 
 @task
@@ -20,7 +20,7 @@ def build():
 
 @task
 def backup():
-    """Create a prod database backup."""
+    """Create a backup of prod database."""
     today = date.today().strftime("%Y-%m-%d")
     local(f"pg_dump --host=brain.local --username=showminder --file=showminder_{today}.sql showminder")
 
