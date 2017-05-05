@@ -24,7 +24,7 @@ class TvShow(models.Model):
     release_date = models.DateField(null=True)
     typ = models.CharField(default='tv_series', max_length=30)
     # my attributes
-    last_seen = models.DateField(default=unix0)
+    last_seen = models.DateTimeField(auto_now=True)
     season = models.IntegerField(default=1)
     episode = models.IntegerField(default=1)
 
