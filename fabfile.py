@@ -21,6 +21,5 @@ def build():
 @task
 def backup():
     """Create a backup of prod database."""
-    today = date.today().strftime("%Y-%m-%d")
-    local(f"pg_dump --host=brain.local --username=showminder --file=showminder_{today}.sql showminder")
+    local("pg_dump --host=brain.local --username=showminder --file=showminder.sql showminder")
 
