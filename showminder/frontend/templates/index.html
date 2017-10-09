@@ -13,7 +13,7 @@
             $('#results').DataTable({
                 "pageLength": 20,
                 "pagingType": 'numbers',
-                "lengthMenu": [[50, 150, 250, -1], [50, 150, 250, "All"]],
+                "bLengthChange" : false,
                 {{ order }}
             });
         });
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid" style='margin-top: -30px'>
         <table id="results" class="table table-hover table-condensed">
             <thead>
                 <tr>
