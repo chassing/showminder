@@ -14,8 +14,8 @@ class ImdbIdForm(forms.Form):  # noqa
         episode = self.cleaned_data['episode']
         try:
             self._tvshow = TvShow.from_imdb(imdb_id, season, episode)
-        except:
-            raise forms.ValidationError("Imdb ID not found!")
+        except Exception as e:
+            raise forms.ValidationError(f"Error! {e}")
 
         return imdb_id
 

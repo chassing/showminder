@@ -4,7 +4,7 @@ from datetime import datetime
 from django.db import models
 from imdbpie import Imdb
 
-imdb = Imdb(anonymize=True)
+imdb = Imdb()
 
 
 def unix0():
@@ -36,22 +36,43 @@ class TvShow(models.Model):
 
     @classmethod
     def from_imdb(cls, imdb_id, season=0, episode=0):
-        item = imdb.get_title_by_id(imdb_id)
+        item = imdb.get_title(imdb_id)
         try:
             release_date = datetime.strptime(item.release_date, '%Y-%m-%d').date()
         except:
             release_date = unix0()
 
+        title = item['base']['title']
+
+        try:
+            cover_url = item['base']['image']['url']
+        except KeyError:
+            cover_url = ""
+        try:
+            rating = item['ratings']['rating']
+        except KeyError:
+            rating = 0
+        try:
+            tagline = item['plot']['summaries'][0]['text']
+        except KeyError:
+            tagline = ""
+        try:
+            typ = item['base']['titleType']
+        except KeyError:
+            typ = ""
+
         tvshow = cls(
-            title=item.title,
+            title=title,
             imdb_id=imdb_id,
-            cover_url=item.cover_url,
-            trailer_url=item.trailers[0]['url'] if item.trailers else None,
-            rating=item.rating,
-            genres=", ".join(item.genres),
-            tagline=item.tagline if item.tagline else "",
+            cover_url=cover_url,
+            # trailer_url=item.trailers[0]['url'] if item.trailers else None,
+            trailer_url=None,
+            rating=rating,
+            # genres=", ".join(item.genres),
+            genres="",
+            tagline=tagline,
             release_date=release_date,
-            typ=item.type,
+            typ=typ,
             last_seen=date.today(),
             season=season,
             episode=episode,

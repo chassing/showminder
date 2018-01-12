@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from datetime import date
+
 from fabric.api import env
 from fabric.api import local
 from fabric.api import run
@@ -8,7 +7,7 @@ from fabric.api import task
 env.hosts = ['brain']
 env.user = "core"
 
-VERSION = '0.11'
+VERSION = '0.18'
 
 
 @task
@@ -22,4 +21,3 @@ def build():
 def backup():
     """Create a backup of prod database."""
     local("pg_dump --host=brain.local --username=showminder --file=showminder.sql showminder")
-

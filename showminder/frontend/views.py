@@ -2,7 +2,6 @@
 import logging
 
 from datetime import date
-from imdbpie import Imdb
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
@@ -14,17 +13,6 @@ from .forms import ImdbIdForm
 from .models import TvShow
 
 _log = logging.getLogger(__name__)
-
-
-def imdb_titles(search):
-    imdb = Imdb(anonymize=True)
-    titles = []
-    for item in imdb.search_for_title(search):
-        print(item['title'])
-        # {'imdb_id': 'tt0028599', 'title': 'Back in Circulation', 'year': '1937'},
-        item['cover_url'] = imdb.get_title_by_id(item['imdb_id']).cover_url
-        titles.append(item)
-    return titles
 
 
 class IndexView(LoginRequiredMixin, TemplateView):  # noqa
@@ -56,7 +44,7 @@ class DetailView(LoginRequiredMixin, TemplateView):  # noqa
         return context
 
 
-class IncSeasonView(RedirectView):  # noqa
+class IncSeasonView(LoginRequiredMixin, RedirectView):  # noqa
     permanent = False
     url = "/"
 
@@ -69,7 +57,7 @@ class IncSeasonView(RedirectView):  # noqa
         return super().get_redirect_url(*args, **kwargs)
 
 
-class IncEpisodeView(RedirectView):  # noqa
+class IncEpisodeView(LoginRequiredMixin, RedirectView):  # noqa
     permanent = False
     url = "/"
 
@@ -79,4 +67,3 @@ class IncEpisodeView(RedirectView):  # noqa
         t.last_seen = date.today()
         t.save()
         return super().get_redirect_url(*args, **kwargs)
-
