@@ -2,3 +2,4 @@ imdbpie==5.2.*
 lockfile==0.12.*
 requests==2.12.*
 six==1.10.*
+parse-torrent-name==1.1.1

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls', namespace="auth")),
     # project urls
+    url(r'^api/', include('api.urls', namespace="api")),
     url(r'^', include('frontend.urls', namespace="frontend")),
 ]
 
