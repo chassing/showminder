@@ -19,7 +19,7 @@ class UpdateView(View):  # noqa
         try:
             title, season, episode = parse_filename(filename)
         except:
-            return HttpResponse(f"unable to get info from filename {filename}", status_code=500)
+            return HttpResponse(f"unable to get info from filename {filename}", status_code=400)
 
         try:
             tv = TvShow.objects.get(title__icontains=title)

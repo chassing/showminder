@@ -134,3 +134,7 @@ LOGIN_REDIRECT_URL = "/"
 
 # session timeout - 200 weeks
 SESSION_COOKIE_AGE = 1209600 * 100
+
+MAP_TITLES = {
+    's w a t': 'swat'
+}
