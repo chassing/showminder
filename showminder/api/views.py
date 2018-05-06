@@ -21,11 +21,12 @@ class UpdateView(View):  # noqa
         except:
             return HttpResponse(f"unable to get info from filename {filename}", status_code=400)
 
-        try:
-            tv = TvShow.objects.get(title__icontains=title)
-        except TvShow.DoesNotExist:
-            return HttpResponse(f"unable to find {title}in db", status_code=404)
+        tvs = TvShow.objects.filter(title__icontains=title)
+        if tvs.count() == 0:
+            return HttpResponse(f"unable to find {title} in db", status_code=404)
 
+        # take always the newest one
+        tv = tvs[0]
         if tv.season < season:
             # update season and episode in this case
             tv.season = season
