@@ -3,7 +3,7 @@
 from datetime import datetime as dt
 from invoke import task
 
-VERSION = '0.22'
+VERSION = '0.23'
 
 SRV = 'core@brain'
 
@@ -12,7 +12,7 @@ SRV = 'core@brain'
 def build(c):
     """Build and deploy new version."""
     c.run(f"docker build -t showminder/showminder:{VERSION} -t showminder/showminder:latest .")
-    c.run(f'ssh {SRV} docker service update --image showminder/showminder:{VERSION} showminder')
+    c.run(f'ssh {SRV} docker service update --image showminder/showminder:{VERSION} --env-add SHOWMINDER_VERSION={VERSION} showminder')
 
 
 @task
