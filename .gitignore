@@ -1,2 +1,7 @@
 spike.py
 showminder_*.sql
+/backup
+/showminder/.pytest_cache
+/spike2.py
+/reminder.txt
+/seen.txt
