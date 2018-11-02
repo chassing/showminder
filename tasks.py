@@ -3,7 +3,7 @@
 from datetime import datetime as dt
 from invoke import task
 
-VERSION = "0.24"
+VERSION = "0.25"
 
 SRV = "core@brain"
 
