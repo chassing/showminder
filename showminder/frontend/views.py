@@ -11,6 +11,7 @@ from django.views.generic.edit import FormView
 
 from .forms import ImdbIdForm
 from .models import TvShow
+from api.models import ApiNotification
 
 _log = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ class IndexView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["tvshows"] = TvShow.objects.all()
+        context["api_notifications"] = ApiNotification.objects.all()
         return context
 
 
