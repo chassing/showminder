@@ -22,14 +22,14 @@ class TvShow(models.Model):
     genres = models.CharField(max_length=255, null=True, blank=True)
     tagline = models.TextField(default="No tagline.", blank=True)
     release_date = models.DateField(null=True)
-    typ = models.CharField(default='tv_series', max_length=30)
+    typ = models.CharField(default="tv_series", max_length=30)
     # my attributes
     last_seen = models.DateTimeField(auto_now=True)
     season = models.IntegerField(default=1)
     episode = models.IntegerField(default=1)
 
     class Meta:  # noqa
-        ordering = ['-last_seen', 'title']
+        ordering = ["-last_seen", "title"]
 
     def __str__(self):  # noqa
         return self.title
@@ -38,26 +38,26 @@ class TvShow(models.Model):
     def from_imdb(cls, imdb_id, season=0, episode=0):
         item = imdb.get_title(imdb_id)
         try:
-            release_date = datetime.strptime(item.release_date, '%Y-%m-%d').date()
+            release_date = datetime.strptime(item.release_date, "%Y-%m-%d").date()
         except:
             release_date = unix0()
 
-        title = item['base']['title']
+        title = item["base"]["title"]
 
         try:
-            cover_url = item['base']['image']['url']
+            cover_url = item["base"]["image"]["url"]
         except KeyError:
             cover_url = ""
         try:
-            rating = item['ratings']['rating']
+            rating = item["ratings"]["rating"]
         except KeyError:
             rating = 0
         try:
-            tagline = item['plot']['summaries'][0]['text']
+            tagline = item["plot"]["summaries"][0]["text"]
         except KeyError:
             tagline = ""
         try:
-            typ = item['base']['titleType']
+            typ = item["base"]["titleType"]
         except KeyError:
             typ = ""
 

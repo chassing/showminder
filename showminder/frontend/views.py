@@ -15,41 +15,40 @@ from .models import TvShow
 _log = logging.getLogger(__name__)
 
 
-class IndexView(LoginRequiredMixin, TemplateView):  # noqa
+class IndexView(LoginRequiredMixin, TemplateView):
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tvshows'] = TvShow.objects.all()
+        context["tvshows"] = TvShow.objects.all()
         return context
 
 
-class AddView(LoginRequiredMixin, FormView):  # noqa
-    template_name = 'add.html'
+class AddView(LoginRequiredMixin, FormView):
+    template_name = "add.html"
     form_class = ImdbIdForm
-    success_url = '/'
+    success_url = "/"
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
 
-
-class DetailView(LoginRequiredMixin, TemplateView):  # noqa
+class DetailView(LoginRequiredMixin, TemplateView):
     template_name = "detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tvshow'] = get_object_or_404(TvShow, pk=kwargs['tvshow'])
+        context["tvshow"] = get_object_or_404(TvShow, pk=kwargs["tvshow"])
         return context
 
 
-class IncSeasonView(LoginRequiredMixin, RedirectView):  # noqa
+class IncSeasonView(LoginRequiredMixin, RedirectView):
     permanent = False
     url = "/"
 
     def get_redirect_url(self, *args, **kwargs):
-        t = get_object_or_404(TvShow, pk=kwargs['tvshow'])
+        t = get_object_or_404(TvShow, pk=kwargs["tvshow"])
         t.season += 1
         t.episode = 1
         t.last_seen = date.today()
@@ -57,12 +56,12 @@ class IncSeasonView(LoginRequiredMixin, RedirectView):  # noqa
         return super().get_redirect_url(*args, **kwargs)
 
 
-class IncEpisodeView(LoginRequiredMixin, RedirectView):  # noqa
+class IncEpisodeView(LoginRequiredMixin, RedirectView):
     permanent = False
     url = "/"
 
     def get_redirect_url(self, *args, **kwargs):
-        t = get_object_or_404(TvShow, pk=kwargs['tvshow'])
+        t = get_object_or_404(TvShow, pk=kwargs["tvshow"])
         t.episode += 1
         t.last_seen = date.today()
         t.save()

@@ -7,12 +7,11 @@ from .utils import parse_filename
 from frontend.models import TvShow
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class UpdateView(View):  # noqa
-
+@method_decorator(csrf_exempt, name="dispatch")
+class UpdateView(View):
     def post(self, request, *args, **kwargs):
         try:
-            filename = request.POST['filename']
+            filename = request.POST["filename"]
         except KeyError:
             return HttpResponse("Bad POST data. must include 'filename'", status_code=400)
 
@@ -35,4 +34,6 @@ class UpdateView(View):  # noqa
             tv.episode = episode
         tv.save()
 
-        return HttpResponse(f"""filename - title: {title} season: {season} episode: {episode} | db - title: {tv.title} season: {tv.season} episode: {tv.episode} """)
+        return HttpResponse(
+            f"""filename - title: {title} season: {season} episode: {episode} | db - title: {tv.title} season: {tv.season} episode: {tv.episode} """
+        )

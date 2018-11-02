@@ -6,8 +6,6 @@ ENV LC_ALL en_US.UTF-8
 ENV PYTHONIOENCODING utf-8
 
 RUN adduser -D -u 1000 chris
-
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ADD requirements*.txt /usr/src/app/
