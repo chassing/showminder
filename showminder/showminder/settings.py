@@ -93,9 +93,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "showminder",
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
+        "USER": env("DB_USER", default="user"),
+        "PASSWORD": env("DB_PASSWORD", default="password"),
+        "HOST": env("DB_HOST", default="postgres"),
         "PORT": "5432",
     }
 }
