@@ -148,4 +148,3 @@ SESSION_COOKIE_AGE = 1209600 * 100
 #     "ncis new orleans": "ncis: new orleans",
 # }
 MAP_TITLES = env("MAP_TITLES", default={})
-print(MAP_TITLES)
