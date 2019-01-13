@@ -140,10 +140,12 @@ LOGIN_REDIRECT_URL = "/"
 # session timeout - 200 weeks
 SESSION_COOKIE_AGE = 1209600 * 100
 
-MAP_TITLES = {
-    "s w a t": "swat",
-    "greys anatomy": "grey's anatomy",
-    "911": "9-1-1",
-    "ncis los angeles": "ncis: los angeles",
-    "ncis new orleans": "ncis: new orleans",
-}
+# MAP_TITLES = {
+#     "s w a t": "swat",
+#     "greys anatomy": "grey's anatomy",
+#     "911": "9-1-1",
+#     "ncis los angeles": "ncis: los angeles",
+#     "ncis new orleans": "ncis: new orleans",
+# }
+MAP_TITLES = env("MAP_TITLES")
+print(MAP_TITLES)

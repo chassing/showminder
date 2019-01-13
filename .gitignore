@@ -5,3 +5,4 @@ showminder_*.sql
 /spike2.py
 /reminder.txt
 /seen.txt
+.vscode
