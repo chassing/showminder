@@ -6,52 +6,50 @@
 {% block title %}{% endblock %}
 
 {% block bootstrap3_extra_script %}
-    {{ super }}
-    <script src="{% static 'js/datatables.min.js' %}"></script>
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $('#results').DataTable({
-                "pageLength": 20,
-                "pagingType": 'numbers',
-                "bLengthChange" : false,
+{{ super }}
+<script src="{% static 'js/datatables.min.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#results').DataTable({
+            "pageLength": 20,
+            "pagingType": 'numbers',
+            "bLengthChange": false,
                 {{ order }}
             });
-            $('div.dataTables_filter input').focus();
         });
-    </script>
+</script>
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-        <table id="results" class="table table-hover table-condensed">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Info</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for t in tvshows %}
-                    <tr>
-                        <td scope="row" width="20%">
-                            <a href="{% url 'frontend:detail' tvshow=t.pk %}">
-                                <img src="{{ t.cover_url }}" height="285" width="220">
-                            </a>
-                        </td>
-                        <td>
-                            <p>{{ t.title }}</p>
-                            <p>S{{ t.season }} / E{{ t.episode }}</p>
-                            <p>{{ t.rating }}</p>
-                            <p>{{ t.last_seen }}</p>
-                            <p>
-                                <a class="btn btn-success" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true">Episode</span>
-                                </a>
-                            </p>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="container-fluid">
+    <table id="results" class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in tvshows %}
+            <tr>
+                <td scope="row" width="20%">
+                    <a href="{% url 'frontend:detail' tvshow=t.pk %}">
+                        <img src="{{ t.cover_url }}" height="285" width="220">
+                    </a>
+                </td>
+                <td>
+                    <p>{{ t.title }}</p>
+                    <p>S{{ t.season }} / E{{ t.episode }}</p>
+                    <p>{{ t.last_seen }}</p>
+                    <p>
+                        <a class="btn btn-success" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true">Episode</span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

@@ -1,7 +1,8 @@
-django==1.10.*
-django-bootstrap3==8.1.*
-django-environ==0.4.*
-psycopg2==2.7.*
-whitenoise==3.2.*
-honcho==0.7.*
+django==4.0.*
+django-bootstrap3==21.1
+django-environ==0.8.*
+# conda install postgresql=11.2
+psycopg2==2.9.*
+whitenoise==5.3.*
+honcho==1.1.*
 uwsgi==2.0.*

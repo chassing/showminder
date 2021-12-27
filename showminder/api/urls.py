@@ -1,10 +1,10 @@
-from django.conf.urls import url
+from django.urls import path
 
-from .views import DeleteNotificationView
-from .views import UpdateView
+from .views import DeleteNotificationView, UpdateView
 
+app_name = "api"
 
 urlpatterns = [
-    url(r"^update/$", UpdateView.as_view(), name="update"),
-    url(r"^deletenotification/(?P<pk>[0-9]+)/$", DeleteNotificationView.as_view(), name="delete-notification"),
+    path(r"update/", UpdateView.as_view(), name="update"),
+    path(r"deletenotification/<pk>/", DeleteNotificationView.as_view(), name="delete-notification"),
 ]

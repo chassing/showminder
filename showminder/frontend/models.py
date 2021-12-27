@@ -1,6 +1,5 @@
+from datetime import date, datetime
 
-from datetime import date
-from datetime import datetime
 from django.db import models
 from imdbpie import Imdb
 
@@ -14,6 +13,11 @@ def unix0():
 class TvShow(models.Model):
     """TV Show (Movie or Series)."""
 
+    # todo
+    # alternative namen!
+    # refresh from db in detail view
+    # link zur admin seite in detail view
+    # löschen button
     title = models.CharField(max_length=255)
     imdb_id = models.CharField(max_length=20, null=True)
     cover_url = models.URLField(max_length=2023)
@@ -39,7 +43,7 @@ class TvShow(models.Model):
         item = imdb.get_title(imdb_id)
         try:
             release_date = datetime.strptime(item.release_date, "%Y-%m-%d").date()
-        except:
+        except:  # noqa
             release_date = unix0()
 
         title = item["base"]["title"]
