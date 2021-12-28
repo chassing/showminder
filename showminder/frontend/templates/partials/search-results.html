@@ -1,0 +1,26 @@
+{% if results %}
+<div id="carousel" class="carousel slide" data-bs-touch="true" data-bs-interval="false">
+    <div class="carousel-inner">
+        {% for tv in results %}
+        <div class="carousel-item {% if forloop.first %} active {% endif %}" style="cursor: pointer;"
+            hx-post="{% url 'frontend:htmx-add-tv' tmdb_id=tv.tmdb_id %}">
+            <img src="{{ tv.cover_url }}" class="d-block w-100">
+            <div class="carousel-caption d-block">
+                <h5>{{ tv.title }}</h5>
+                <p><i class="bi bi-calendar-date"></i> {{ tv.release_date }}</p>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<p>No search results</p>
+{% endif %}

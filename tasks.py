@@ -11,6 +11,7 @@ DB = f"postgres://{env('DB_USER', default='user')}:{env('DB_PASSWORD', default='
 @task
 def backup(c):
     """Create a backup of prod database."""
+    c.run("conda install postgresql=11.2")
     c.run(
         f"pg_dump --host={env('DB_HOST')} --username={env('DB_USER')} --no-password --file=backup/showminder.{dt.now():%Y-%m-%d}.sql showminder"
     )
@@ -19,6 +20,5 @@ def backup(c):
 
 """
 pip install db-to-sqlite
-
-db-to-sqlite "postgres://$DB_USER:$DB_PASSWORD@$DB_HOST/showminder" showminder.db --all
+rm -f db.sqlite3 ; db-to-sqlite "postgres://$DB_USER:$DB_PASSWORD@$DB_HOST/showminder" db.sqlite3 --all
 """

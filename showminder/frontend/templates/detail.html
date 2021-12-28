@@ -1,69 +1,64 @@
 {% extends "base.html" %}
 
-{% load bootstrap3 %}
+{% load bootstrap5 %}
 
 {% block title %}{{ tvshow.title }}{% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-        {% if tvshow.tagline %}
-            <p class="well">
-                {{ tvshow.tagline }}
-            </p>
-        {% endif %}
+<div class="container-fluid">
+    {% if tvshow.tagline %}
+    <p class="well">
+        {{ tvshow.tagline }}
+    </p>
+    {% endif %}
 
-        <div class="row">
-            <div class="col-md-4">
-                <img src="{{ tvshow.cover_url }}" height="285" width="220">
-            </div>
-            <div class="col-md-8">
-                {% if tvshow.trailer_url %}
-                    <video controls>
-                        <source src="{{ tvshow.trailer_url }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                {% endif %}
-            </div>
+    <div class="row">
+        <div class="col">
+            <img src="{{ tvshow.cover_url }}" style="width: 20rem;">
         </div>
-
-        <br/>
-
-        <p>
-            <a class="btn btn-primary" href="{% url 'frontend:inc-season' tvshow=tvshow.pk %}">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true">Season</span>
-            </a>
-        </p>
-        <table id="results" class="table table-hover table-condensed">
-            <tbody>
-                <tr>
-                    <th>Title</th>
-                    <td>{{ tvshow.title }}</td>
-                </tr>
-                <tr>
-                    <th>Imdb ID</th>
-                    <td>{{ tvshow.imdb_id }}</td>
-                </tr>
-                <tr>
-                    <th>Rating</th>
-                    <td>{{ tvshow.rating }}</td>
-                </tr>
-                <tr>
-                    <th>Genres</th>
-                    <td>{{ tvshow.genres }}</td>
-                </tr>
-                <tr>
-                    <th>Release Date</th>
-                    <td>{{ tvshow.release_date }}</td>
-                </tr>
-                <tr>
-                    <th>Type</th>
-                    <td>{{ tvshow.typ }}</td>
-                </tr>
-                <tr>
-                    <th>Last Seen</th>
-                    <td>{{ tvshow.last_seen }} S{{ tvshow.season }} / E{{ tvshow.episode }}</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
+
+    <br />
+
+    <p>
+        <a class="btn btn-primary" href="{% url 'frontend:inc-season' tvshow=tvshow.pk %}">
+            <i class="bi bi-plus-square"></i> Season</span>
+        </a>
+        <a class="btn btn-success" href="{% url 'frontend:inc-episode' tvshow=tvshow.pk %}">
+            <i class="bi bi-plus-square"></i> Episode
+        </a>
+    </p>
+    <table id="results" class="table table-hover table-condensed">
+        <tbody>
+            <tr>
+                <th>Title</th>
+                <td>{{ tvshow.title }}</td>
+            </tr>
+            <tr>
+                <th>Imdb ID</th>
+                <td>{{ tvshow.tmdb_id }}</td>
+            </tr>
+            <tr>
+                <th>Rating</th>
+                <td>{{ tvshow.rating }}</td>
+            </tr>
+            <tr>
+                <th>Genres</th>
+                <td>{{ tvshow.genres }}</td>
+            </tr>
+            <tr>
+                <th>Release Date</th>
+                <td>{{ tvshow.release_date }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ tvshow.typ }}</td>
+            </tr>
+            <tr>
+                <th>Last Seen</th>
+                <td>{{ tvshow.last_seen }} S{{ tvshow.season }} / E{{ tvshow.episode }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock %}

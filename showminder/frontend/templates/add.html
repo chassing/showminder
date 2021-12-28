@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
-{% load bootstrap3 %}
+{% load bootstrap5 %}
 
 {% block title %}Import new TV Show{% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-        <form class="form" action="{% url 'frontend:add' %}" method="post">
-            <a href="http://www.imdb.com" class="btn btn-lg btn-primary btn-block" target="_blank">IMdb</a>
-            {% csrf_token %}
-            {% bootstrap_form_errors form %}
-            {% bootstrap_form form %}
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-        </form>
+<div class="container-fluid">
+    <div class="d-flex mb-4">
+        <input type="text" hx-post="{% url 'frontend:htmx-search-tmdb' %}" hx-target='#results'
+            hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
+            placeholder="Search films..." />
     </div>
+    <div id="results"></div>
+</div>
 {% endblock %}

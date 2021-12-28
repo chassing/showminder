@@ -1,55 +1,70 @@
 {% extends "base.html" %}
 
 {% load static %}
-{% load bootstrap3 %}
+{% load bootstrap5 %}
 
 {% block title %}{% endblock %}
 
-{% block bootstrap3_extra_script %}
-{{ super }}
-<script src="{% static 'js/datatables.min.js' %}"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#results').DataTable({
-            "pageLength": 20,
-            "pagingType": 'numbers',
-            "bLengthChange": false,
-                {{ order }}
-            });
-        });
-</script>
-{% endblock %}
-
 {% block content %}
 <div class="container-fluid">
-    <table id="results" class="table table-hover table-condensed">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Info</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for t in tvshows %}
-            <tr>
-                <td scope="row" width="20%">
-                    <a href="{% url 'frontend:detail' tvshow=t.pk %}">
-                        <img src="{{ t.cover_url }}" height="285" width="220">
+    <div class="row justify-content-between">
+        {% for t in object_list %}
+        <div class="col">
+            <div class="card m-1" style="width: 20rem;">
+                <a href="{% url 'frontend:detail' tvshow=t.pk %}">
+                    <img src="{{ t.cover_url }}" class="card-img-top" style="height: 30rem;">
+                    <div class="carousel-caption d-block">
+                        <h5>{{ t.title }}</h5>
+                        <p><i class="bi bi-calendar-date"></i> {{ t.last_seen|date:"DATE_FORMAT" }}</p>
+                        <p>S{{ t.season }} / E{{ t.episode }}</p>
+                    </div>
+                </a>
+                <span class="position-absolute fixed-bottom text-end m-2">
+                    <a class="btn btn-success margin-end" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
+                        <i class="bi bi-plus-square"></i> Episode
                     </a>
-                </td>
-                <td>
-                    <p>{{ t.title }}</p>
-                    <p>S{{ t.season }} / E{{ t.episode }}</p>
-                    <p>{{ t.last_seen }}</p>
-                    <p>
-                        <a class="btn btn-success" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true">Episode</span>
-                        </a>
-                    </p>
-                </td>
-            </tr>
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+    <hr>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-sm">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="{% url 'frontend:index' %}?page={{ page_obj.previous_page_number }}&{{search}}">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </li>
+            {% endif %}
+            {% for i in pages %}
+            <li class="page-item {% if page_obj.number == i %} active {% endif %}">
+                <a class="page-link" href="{% url 'frontend:index' %}?page={{ i }}&{{search}}">
+                    {{ i }}
+                </a>
+            </li>
             {% endfor %}
-        </tbody>
-    </table>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'frontend:index' %}?page={{ page_obj.next_page_number }}&{{search}}">
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-sm">
+            <li class="page-item disabled">
+                <small>On page <strong>{{ page_obj.number }}</strong> of <strong>{{ paginator.num_pages}}</strong>.
+                    Showing <strong>{{ page_obj.object_list.count }}</strong> of total <strong>
+                        {{ page_obj.paginator.count }}</strong> items.</small>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
 </div>
 {% endblock %}

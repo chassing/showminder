@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import environ
@@ -31,7 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "bootstrap3",
+    "bootstrap5",
     "api",
     "frontend",
 ]
@@ -122,3 +121,6 @@ SESSION_COOKIE_AGE = 1209600 * 100
 # }
 MAP_TITLES = env("MAP_TITLES", default={})
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+TMDB_API_KEY = env("TMDB_API_KEY")
+TMDB_BASE_URL = "https://image.tmdb.org/t/p/w500/"

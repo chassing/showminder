@@ -1,9 +1,9 @@
 {% extends 'bootstrap.html' %}
 
 {% load static %}
-{% load bootstrap3 %}
 
-{% block bootstrap3_extra_head %}
+{% block bootstrap_extra_head %}
+
 <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
 <link href="{% static 'css/project.css' %}" rel="stylesheet">
 
@@ -26,33 +26,47 @@
 <meta name="theme-color" content="#ffffff">
 {% endblock %}
 
-{% block bootstrap3_content %}
+{% block bootstrap_content %}
 {% if user.is_authenticated %}
 <!-- nav only if user is logged in -->
-<nav class="navbar navbar-default navbar-inverse navbar-static-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{% url 'frontend:index' %}">ShowMinder</a>
-            <ul class="nav navbar-nav">
-                <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-                        aria-expanded="false">
-                        Action <span class="caret"></span>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'frontend:index' %}">ShowMinder</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Action
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'frontend:add' %}">Add Tv Show</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{% url 'admin:index' %}">Admin</a></li>
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a href="https://www.themoviedb.org/tv" class="dropdown-item""
+                                target=" _blank">TMdb</a>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+
                     </ul>
                 </li>
             </ul>
+            <form class="d-flex me-2" method="GET">
+                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <a class="btn btn-outline-success" href="{% url 'frontend:add' %}"><i class="bi bi-plus-square"></i> Add</a>
         </div>
     </div>
 </nav>
 {% endif %}
 
-<div class="container">
+<div class="container-fluid">
     {% if api_notifications %}
     <div class="container-fluid">
         {% for m in api_notifications %}
@@ -78,10 +92,10 @@
     {% block content %}(no content){% endblock %}
 </div>
 
-<footer class="footer navbar-fixed-bottom">
-    <div class="container">
-        <p class="text-muted">Version {{VERSION}} - Made with <span class="glyphicon glyphicon-heart"
-                aria-hidden="true"></span> by <a href="https://github.com/chassing/">Christian Assing</a>.</p>
+<footer class="footer fixed-bottom">
+    <div class="container-fluid">
+        <p class="text-muted">Made with <i class="bi bi-heart-fill" style="color: rgb(235, 14, 14);"></i>
+            by <a href="https://github.com/chassing/">Christian Assing</a>.</p>
     </div>
 </footer>
 {% endblock %}
