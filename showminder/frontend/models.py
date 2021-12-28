@@ -3,6 +3,7 @@ from datetime import date
 import tmdbsimple as tmdb
 from django.conf import settings
 from django.db import models
+from django.templatetags.static import static
 
 tmdb.REQUESTS_TIMEOUT = 5
 tmdb.API_KEY = settings.TMDB_API_KEY
@@ -10,6 +11,12 @@ tmdb.API_KEY = settings.TMDB_API_KEY
 
 def unix0():
     return date.fromtimestamp(0)
+
+
+def poster_url(poster_path):
+    if poster_path:
+        return settings.TMDB_BASE_URL + poster_path
+    return static("images/image-placeholder-500x500.jpg")
 
 
 class TvShow(models.Model):
@@ -46,10 +53,10 @@ class TvShow(models.Model):
         return cls.objects.create(
             title=tv.name,
             tmdb_id=tv.id,
-            cover_url=settings.TMDB_BASE_URL + tv.poster_path if tv.poster_path else "",
+            cover_url=poster_url(tv.poster_path),
             rating=tv.vote_average,
             tagline=tv.overview,
-            release_date=tv.first_air_date,
+            release_date=date.fromisoformat(tv.first_air_date) if tv.first_air_date else unix0(),
             genres=", ".join([g["name"] for g in tv.genres]),
             typ="tv",
             last_seen=date.today(),
@@ -59,15 +66,19 @@ class TvShow(models.Model):
     def search(cls, query):
         search = tmdb.Search()
         search.tv(query=query, include_adult=True)
-        return [
-            cls(
-                title=s["name"],
-                tmdb_id=s["id"],
-                cover_url=settings.TMDB_BASE_URL + s["poster_path"] if s["poster_path"] else "",
-                rating=s["vote_average"],
-                tagline=s["overview"],
-                release_date=s.get("first_air_date"),
-                typ="tv",
-            )
-            for s in search.results
-        ]
+        return sorted(
+            [
+                cls(
+                    title=s["name"],
+                    tmdb_id=s["id"],
+                    cover_url=poster_url(s["poster_path"]),
+                    rating=s["vote_average"],
+                    tagline=s["overview"],
+                    release_date=date.fromisoformat(s.get("first_air_date")) if s.get("first_air_date") else unix0(),
+                    typ="tv",
+                )
+                for s in search.results
+            ],
+            key=lambda x: x.release_date,
+            reverse=True,
+        )
