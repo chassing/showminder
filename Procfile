@@ -1,1 +1,1 @@
-web: cd showminder && ./manage.py migrate && uwsgi --http :8000 --module=showminder.wsgi:application --master --pidfile=/tmp/project-master.pid --processes=5
+web: cd showminder && ./manage.py migrate && gunicorn --bind 0.0.0.0:8000 --access-logfile - showminder.wsgi:application --threads 5
