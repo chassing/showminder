@@ -10,7 +10,8 @@
         <input type="text" class="form-control" style="width: 20rem;"
             hx-post="{% url 'frontend:htmx-search-tmdb-for-add' %}" hx-target='#results'
             hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
-            placeholder="Search tv show ..." autocomplete="off" />
+            placeholder="Search tv show ..." autocomplete="off" autocorrect="off" autocapitalize="off"
+            spellcheck="false" />
     </div>
     <div id="results"></div>
 </div>

@@ -37,7 +37,8 @@
         <input type="text" class="d-inline form-control p-1" style="width: 20rem;"
             hx-post="{% url 'frontend:htmx-search-tmdb-for-refresh' tvshow=tvshow.pk %}" hx-target='#results'
             hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
-            placeholder="Search tv show to refresh from ..." autocomplete="off" />
+            placeholder="Search tv show to refresh from ..." autocomplete="off" autocorrect="off" autocapitalize="off"
+            spellcheck="false" />
     <div id="results"></div>
 
     {% endif %}
