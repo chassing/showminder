@@ -92,4 +92,16 @@ class TvShow(models.Model):
         self.release_date = date.fromisoformat(tv.first_air_date) if tv.first_air_date else unix0()
         self.genres = ", ".join([g["name"] for g in tv.genres])
         self.typ = "tv"
-        self.save()
+        self.save(
+            update_fields=[
+                "title",
+                "tmdb_id",
+                "movie_db",
+                "cover_url",
+                "rating",
+                "tagline",
+                "release_date",
+                "genres",
+                "typ",
+            ]
+        )
