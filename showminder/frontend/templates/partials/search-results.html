@@ -2,7 +2,7 @@
 <div class="row">
     {% for tv in results %}
     <div class="col">
-        <div class="card m-1" style="width: 20rem; cursor: pointer;"
+        <div class="card mb-3" style="width: 19rem; cursor: pointer;"
             hx-post="{% url 'frontend:htmx-add-tv' tmdb_id=tv.tmdb_id %}">
             <img src="{{ tv.cover_url }}" class="card-img-top" style="height: 30rem;">
             <div class="carousel-caption d-block bg-dark bg-opacity-50">
