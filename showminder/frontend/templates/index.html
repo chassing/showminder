@@ -7,6 +7,7 @@
 
 {% block content %}
 <div class="container-fluid">
+
     <div class="row justify-content-between">
         {% for t in object_list %}
         <div class="col">
@@ -21,7 +22,7 @@
                 </a>
                 <span class="position-absolute fixed-bottom text-end m-2">
                     <a class="btn btn-success margin-end" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
-                        <i class="bi bi-plus-square"></i> Episode
+                        <i class="bi bi-cloud-plus-fill"></i>
                     </a>
                 </span>
             </div>
@@ -30,7 +31,7 @@
     </div>
     {% if is_paginated %}
     <hr>
-    <nav aria-label="Page navigation example">
+    <nav>
         <ul class="pagination justify-content-center pagination-sm">
             {% if page_obj.has_previous %}
             <li class="page-item">
@@ -56,7 +57,7 @@
             {% endif %}
         </ul>
     </nav>
-    <nav aria-label="Page navigation example">
+    <nav>
         <ul class="pagination justify-content-center pagination-sm">
             <li class="page-item disabled">
                 <small>On page <strong>{{ page_obj.number }}</strong> of <strong>{{ paginator.num_pages}}</strong>.

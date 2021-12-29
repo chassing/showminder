@@ -122,5 +122,5 @@ SESSION_COOKIE_AGE = 1209600 * 100
 MAP_TITLES = env("MAP_TITLES", default={})
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-TMDB_API_KEY = env("TMDB_API_KEY")
+TMDB_API_KEY = env("TMDB_API_KEY", default="")
 TMDB_BASE_URL = "https://image.tmdb.org/t/p/w500/"
