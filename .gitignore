@@ -7,3 +7,4 @@ showminder_*.sql
 /seen.txt
 .vscode
 *.sqlite3
+*.sql

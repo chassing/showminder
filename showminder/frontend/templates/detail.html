@@ -27,7 +27,23 @@
         <a class="btn btn-success" href="{% url 'frontend:inc-episode' tvshow=tvshow.pk %}">
             <i class="bi bi-plus-square"></i> Episode
         </a>
+
+        {% if tvshow.movie_db == 'tmdb' %}
+        <button class="btn btn-danger"
+            hx-post="{% url 'frontend:htmx-refresh-tv' tmdb_id=tvshow.tmdb_id tvshow=tvshow.pk %}">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+        {% else %}
+        <input type="text" class="d-inline form-control p-1" style="width: 20rem;"
+            hx-post="{% url 'frontend:htmx-search-tmdb-for-refresh' tvshow=tvshow.pk %}" hx-target='#results'
+            hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
+            placeholder="Search tv show to refresh from ..." autocomplete="off" />
+    <div id="results"></div>
+
+    {% endif %}
     </p>
+
+
     <table id="results" class="table table-hover table-condensed">
         <tbody>
             <tr>
@@ -35,7 +51,7 @@
                 <td>{{ tvshow.title }}</td>
             </tr>
             <tr>
-                <th>Imdb ID</th>
+                <th>TMDB ID</th>
                 <td>{{ tvshow.tmdb_id }}</td>
             </tr>
             <tr>
@@ -56,9 +72,22 @@
             </tr>
             <tr>
                 <th>Last Seen</th>
-                <td>{{ tvshow.last_seen }} S{{ tvshow.season }} / E{{ tvshow.episode }}</td>
+                <td>{{ tvshow.last_seen }}
+                    <br />
+                    S{{ tvshow.season }} / E{{ tvshow.episode }}
+                </td>
             </tr>
         </tbody>
     </table>
+
+    <p>
+        <a class="btn btn-secondary" href="{% url 'admin:frontend_tvshow_change' tvshow.pk %}">
+            <i class="bi bi-pencil-square"></i> Admin
+        </a>
+        <a class="btn btn-danger" href="{% url 'frontend:delete' tvshow=tvshow.pk %}">
+            <i class="bi bi-pencil-square"></i> Delete
+        </a>
+    </p>
 </div>
+
 {% endblock %}

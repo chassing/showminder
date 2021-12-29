@@ -7,8 +7,9 @@
 {% block content %}
 <div class="container-fluid">
     <div class="d-flex m-1 mb-2">
-        <input type="text" class="form-control" style="width: 20rem;" hx-post="{% url 'frontend:htmx-search-tmdb' %}"
-            hx-target='#results' hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
+        <input type="text" class="form-control" style="width: 20rem;"
+            hx-post="{% url 'frontend:htmx-search-tmdb-for-add' %}" hx-target='#results'
+            hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
             placeholder="Search tv show ..." autocomplete="off" />
     </div>
     <div id="results"></div>

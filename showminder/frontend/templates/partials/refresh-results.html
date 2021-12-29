@@ -1,0 +1,18 @@
+{% if results %}
+<div class="row">
+    {% for tv in results %}
+    <div class="col">
+        <div class="card mb-3" style="width: 19rem; cursor: pointer;"
+            hx-post="{% url 'frontend:htmx-refresh-tv' tmdb_id=tv.tmdb_id tvshow=tvshow %}">
+            <img src="{{ tv.cover_url }}" class="card-img-top" style="height: 30rem;">
+            <div class="carousel-caption d-block bg-dark bg-opacity-50">
+                <h5>{{ tv.title }}</h5>
+                <p><i class="bi bi-calendar-date"></i> {{ tv.release_date }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No search results</p>
+{% endif %}

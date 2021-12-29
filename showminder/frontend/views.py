@@ -5,14 +5,21 @@ from api.models import ApiNotification
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.generic.list import ListView
 
 from .models import TvShow
 
 _log = logging.getLogger(__name__)
+
+
+class HTTPResponseHXRedirect(HttpResponseRedirect):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self["HX-Redirect"] = self["Location"]
+
+    status_code = 200
 
 
 class IndexView(LoginRequiredMixin, ListView):
@@ -51,62 +58,69 @@ class IndexView(LoginRequiredMixin, ListView):
         return context
 
 
-class DetailView(LoginRequiredMixin, TemplateView):
-    template_name = "detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["tvshow"] = get_object_or_404(TvShow, pk=kwargs["tvshow"])
-        return context
-
-
-class AddView(LoginRequiredMixin, TemplateView):
-    template_name = "add.html"
-
-
-class IncSeasonView(LoginRequiredMixin, RedirectView):
-    permanent = False
-    url = "/"
-
-    def get_redirect_url(self, *args, **kwargs):
-        t = get_object_or_404(TvShow, pk=kwargs["tvshow"])
-        t.season += 1
-        t.episode = 1
-        t.last_seen = date.today()
-        t.save()
-        return super().get_redirect_url(*args, **kwargs)
-
-
-class IncEpisodeView(LoginRequiredMixin, RedirectView):
-    permanent = False
-    url = "/"
-
-    def get_redirect_url(self, *args, **kwargs):
-        t = get_object_or_404(TvShow, pk=kwargs["tvshow"])
-        t.episode += 1
-        t.last_seen = date.today()
-        t.save()
-        return super().get_redirect_url(*args, **kwargs)
+@login_required
+def detail_view(request, tvshow):
+    return render(request, "detail.html", {"tvshow": get_object_or_404(TvShow, pk=tvshow)})
 
 
 @login_required
-def search_tmdb(request):
+def add_view(request):
+    return render(request, "add.html", {})
+
+
+@login_required
+def inc_season_view(request, tvshow):
+    t = get_object_or_404(TvShow, pk=tvshow)
+    t.season += 1
+    t.episode = 1
+    t.last_seen = date.today()
+    t.save()
+    return redirect("frontend:index")
+
+
+@login_required
+def inc_episode_view(request, tvshow):
+    t = get_object_or_404(TvShow, pk=tvshow)
+    t.episode += 1
+    t.last_seen = date.today()
+    t.save()
+    return redirect("frontend:index")
+
+
+@login_required
+def delete_view(request, tvshow):
+    t = get_object_or_404(TvShow, pk=tvshow)
+    t.delete()
+    return redirect("frontend:index")
+
+
+@login_required
+def htmx_search_tmdb_for_add(request):
+    return _htmx_search_tmdb(request, "partials/search-results.html", {})
+
+
+@login_required
+def htmx_search_tmdb_for_refresh(request, tvshow):
+    return _htmx_search_tmdb(request, "partials/refresh-results.html", {"tvshow": tvshow})
+
+
+def _htmx_search_tmdb(request, template, context):
     tv_shows = []
     if query := request.POST.get("search"):
         tv_shows = TvShow.search(query=query)
-    context = {"results": tv_shows}
-    return render(request, "partials/search-results.html", context)
+    context["results"] = tv_shows
 
-
-class HTTPResponseHXRedirect(HttpResponseRedirect):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self["HX-Redirect"] = self["Location"]
-
-    status_code = 200
+    return render(request, template, context)
 
 
 @login_required
-def add_tv(request, tmdb_id):
+def htmx_add_tv(request, tmdb_id):
     TvShow.create(tmdb_id=tmdb_id)
     return HTTPResponseHXRedirect(redirect_to="/")
+
+
+@login_required
+def htmx_refresh_tv(request, tvshow, tmdb_id):
+    t = get_object_or_404(TvShow, pk=tvshow)
+    t.refresh_from_tmdb(tmdb_id)
+    return HTTPResponseHXRedirect(redirect_to=reverse("frontend:detail", kwargs={"tvshow": tvshow}))

@@ -24,8 +24,6 @@ class TvShow(models.Model):
 
     # todo
     # alternative namen!
-    # refresh from db in detail view
-    # link zur admin seite in detail view
     # löschen button
     title = models.CharField(max_length=255)
     tmdb_id = models.CharField(max_length=20, null=True)
@@ -35,6 +33,7 @@ class TvShow(models.Model):
     tagline = models.TextField(default="No tagline.", blank=True)
     release_date = models.DateField(null=True)
     typ = models.CharField(default="tv_series", max_length=30)
+    movie_db = models.CharField(default="imdb", max_length=30)
     # my attributes
     last_seen = models.DateTimeField(auto_now=True)
     season = models.IntegerField(default=1)
@@ -60,6 +59,7 @@ class TvShow(models.Model):
             genres=", ".join([g["name"] for g in tv.genres]),
             typ="tv",
             last_seen=date.today(),
+            movie_db="tmdb",
         )
 
     @classmethod
@@ -75,10 +75,23 @@ class TvShow(models.Model):
                     rating=s["vote_average"],
                     tagline=s["overview"],
                     release_date=date.fromisoformat(s.get("first_air_date")) if s.get("first_air_date") else unix0(),
-                    typ="tv",
                 )
                 for s in search.results
             ],
             key=lambda x: x.release_date,
             reverse=True,
         )
+
+    def refresh_from_tmdb(self, tmdb_id):
+        tv = tmdb.TV(tmdb_id)
+        tv.info()
+        self.title = tv.name
+        self.tmdb_id = tv.id
+        self.movie_db = "tmdb"
+        self.cover_url = poster_url(tv.poster_path)
+        self.rating = tv.vote_average
+        self.tagline = tv.overview
+        self.release_date = date.fromisoformat(tv.first_air_date) if tv.first_air_date else unix0()
+        self.genres = ", ".join([g["name"] for g in tv.genres])
+        self.typ = "tv"
+        self.save()
