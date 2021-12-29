@@ -1,21 +1,28 @@
 from datetime import datetime as dt
 
-import environ
 from invoke import task
-
-env = environ.Env(DEBUG=(bool, False))
-env.read_env()
-DB = f"postgres://{env('DB_USER', default='user')}:{env('DB_PASSWORD', default='password')}@{env('DB_HOST', default='postgres')}/showminder"
 
 
 @task
 def backup(c):
     """Create a backup of prod database."""
-    c.run("conda install postgresql=11.2")
-    c.run(
-        f"pg_dump --host={env('DB_HOST')} --username={env('DB_USER')} --no-password --file=backup/showminder.{dt.now():%Y-%m-%d}.sql showminder"
+    # conda install postgresql
+    p = c.run(
+        'kubectl get secret --namespace showminder showminder-postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode',
+        pty=True,
     )
-    c.run(f"ls -lrt backup")
+    print(p)
+    c.run(
+        f"pg_dump --host=192.168.0.64 --username=postgres -W --file=backup/showminder.{dt.now():%Y-%m-%d}.sql showminder"
+    )
+    c.run("ls -lrt backup")
+
+
+@task
+def release(c):
+    c.run("docker build -t chassing/showminder:latest .", pty=True)
+    c.run("docker push chassing/showminder:latest", pty=True)
+    c.run("kubectl rollout restart deployment showminder")
 
 
 """
