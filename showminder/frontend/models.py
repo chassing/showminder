@@ -22,9 +22,7 @@ def poster_url(poster_path):
 class TvShow(models.Model):
     """TV Show (Movie or Series)."""
 
-    # todo
-    # alternative namen!
-    # löschen button
+    # todo - alternative namen!
     title = models.CharField(max_length=255)
     tmdb_id = models.CharField(max_length=20, null=True)
     cover_url = models.URLField(max_length=2023)
