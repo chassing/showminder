@@ -24,7 +24,7 @@ class HTTPResponseHXRedirect(HttpResponseRedirect):
 class IndexView(LoginRequiredMixin, ListView):
     template_name = "index.html"
     model = TvShow
-    paginate_by = 10
+    paginate_by = 8
 
     def get_queryset(self, *args, **kwargs):
         if title := self.request.GET.get("search"):
