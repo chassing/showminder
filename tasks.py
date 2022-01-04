@@ -7,13 +7,12 @@ from invoke import task
 def backup(c):
     """Create a backup of prod database."""
     # conda install postgresql
-    p = c.run(
+    postgres_password = c.run(
         'kubectl get secret --namespace showminder showminder-postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode',
         pty=True,
     )
-    print(p)
     c.run(
-        f"pg_dump --host=192.168.0.64 --username=postgres -W --file=backup/showminder.{dt.now():%Y-%m-%d}.sql showminder"
+        f"pg_dump --dbname='postgres://postgres:{postgres_password.stdout}@192.168.0.64:5432/showminder' --file=backup/showminder.{dt.now():%Y-%m-%d}.sql",
     )
     c.run("ls -lrt backup")
 
