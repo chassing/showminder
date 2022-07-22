@@ -9,63 +9,8 @@
 <div class="container-fluid">
 
     <div class="row justify-content-between">
-        {% for t in object_list %}
-        <div class="col">
-            <div class="card mb-3" style="width: 19rem;">
-                <a href="{% url 'frontend:detail' tvshow=t.pk %}">
-                    <img src="{{ t.cover_url }}" class="card-img-top" style="height: 30rem;">
-                    <div class="carousel-caption d-block">
-                        <h5>{{ t.title }}</h5>
-                        <p><i class="bi bi-calendar-date"></i> {{ t.last_seen|date:"DATE_FORMAT" }}</p>
-                        <p>S{{ t.season }} / E{{ t.episode }}</p>
-                    </div>
-                </a>
-                <span class="position-absolute fixed-bottom text-end m-2">
-                    <a class="btn btn-success margin-end" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
-                        <i class="bi bi-cloud-plus-fill"></i>
-                    </a>
-                </span>
-            </div>
-        </div>
-        {% endfor %}
+        {% include "partials/series-list.html" %}
     </div>
-    {% if is_paginated %}
-    <hr>
-    <nav>
-        <ul class="pagination justify-content-center pagination-sm">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link"
-                    href="{% url 'frontend:index' %}?page={{ page_obj.previous_page_number }}&{{search}}">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-            </li>
-            {% endif %}
-            {% for i in pages %}
-            <li class="page-item {% if page_obj.number == i %} active {% endif %}">
-                <a class="page-link" href="{% url 'frontend:index' %}?page={{ i }}&{{search}}">
-                    {{ i }}
-                </a>
-            </li>
-            {% endfor %}
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="{% url 'frontend:index' %}?page={{ page_obj.next_page_number }}&{{search}}">
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    <nav>
-        <ul class="pagination justify-content-center pagination-sm">
-            <li class="page-item disabled">
-                <small>On page <strong>{{ page_obj.number }}</strong> of <strong>{{ paginator.num_pages}}</strong>.
-                    Showing <strong>{{ page_obj.object_list.count }}</strong> of total <strong>
-                        {{ page_obj.paginator.count }}</strong> items.</small>
-            </li>
-        </ul>
-    </nav>
-    {% endif %}
+
 </div>
 {% endblock %}

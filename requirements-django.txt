@@ -5,3 +5,4 @@ psycopg2-binary==2.9.*
 whitenoise==5.3.*
 honcho==1.1.*
 gunicorn==20.1.*
+django-htmx==1.12.*

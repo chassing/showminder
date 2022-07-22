@@ -33,6 +33,11 @@ class IndexView(LoginRequiredMixin, ListView):
             query = TvShow.objects.all()
         return query
 
+    def get_template_names(self) -> list[str]:
+        if self.request.htmx:
+            return ["partials/series-list.html"]
+        return super().get_template_names()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if search := self.request.GET.get("search"):
@@ -59,7 +64,9 @@ class IndexView(LoginRequiredMixin, ListView):
 
 @login_required
 def detail_view(request, tvshow):
-    return render(request, "detail.html", {"tvshow": get_object_or_404(TvShow, pk=tvshow)})
+    return render(
+        request, "detail.html", {"tvshow": get_object_or_404(TvShow, pk=tvshow)}
+    )
 
 
 @login_required
@@ -100,7 +107,9 @@ def htmx_search_tmdb_for_add(request):
 
 @login_required
 def htmx_search_tmdb_for_refresh(request, tvshow):
-    return _htmx_search_tmdb(request, "partials/refresh-results.html", {"tvshow": tvshow})
+    return _htmx_search_tmdb(
+        request, "partials/refresh-results.html", {"tvshow": tvshow}
+    )
 
 
 def _htmx_search_tmdb(request, template, context):
@@ -122,4 +131,6 @@ def htmx_add_tv(request, tmdb_id):
 def htmx_refresh_tv(request, tvshow, tmdb_id):
     t = get_object_or_404(TvShow, pk=tvshow)
     t.refresh_from_tmdb(tmdb_id)
-    return HTTPResponseHXRedirect(redirect_to=reverse("frontend:detail", kwargs={"tvshow": tvshow}))
+    return HTTPResponseHXRedirect(
+        redirect_to=reverse("frontend:detail", kwargs={"tvshow": tvshow})
+    )
