@@ -1,0 +1,9 @@
+/* header is draggable... */
+nav {
+    -webkit-app-region: drag;
+}
+
+/* but any buttons or anything else inside the header shouldn't be draggable */
+nav button, a, input {
+    -webkit-app-region: no-drag;
+}

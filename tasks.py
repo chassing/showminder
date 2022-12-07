@@ -24,6 +24,17 @@ def release(c):
     c.run("kubectl rollout restart deployment showminder")
 
 
+@task
+def nativefier(c):
+    # brew install nativefier
+    c.run(
+        "nativefier http://showminder.ca-net.org . --name ShowMinder --inject window.js --inject site.css --title-bar-style 'hiddenInset' --hide-window-frame --tray --darwin-dark-mode-support",
+        pty=True,
+    )
+    c.run("rm -rf /Users/cassing/bin/ShowMinder.app")
+    c.run("mv ShowMinder-darwin-x64/ShowMinder.app /Users/cassing/bin/")
+
+
 """
 pip install db-to-sqlite
 rm -f db.sqlite3 ; db-to-sqlite "postgres://$DB_USER:$DB_PASSWORD@$DB_HOST/showminder" db.sqlite3 --all
