@@ -1,24 +1,25 @@
 {% for t in object_list %}
 
-{% if forloop.last and page_obj.has_next%}
-<div class="col" hx-get="{% url 'frontend:index' %}?page={{ page_obj.number|add:1 }}" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
-{% else %}
-<div class="col">
-{% endif %}
-    <div class="card mb-3" style="width: 19rem;">
-        <a href="{% url 'frontend:detail' tvshow=t.pk %}">
-            <img src="{{ t.cover_url }}" class="card-img-top" style="height: 30rem;">
-            <div class="carousel-caption d-block">
-                <h5>{{ t.title }}</h5>
-                <p><i class="bi bi-calendar-date"></i> {{ t.last_seen|date:"DATE_FORMAT" }}</p>
-                <p>S{{ t.season }} / E{{ t.episode }}</p>
-            </div>
-        </a>
-        <span class="position-absolute fixed-bottom text-end m-2">
-            <a class="btn btn-success margin-end" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
-                <i class="bi bi-cloud-plus-fill"></i>
+{% if forloop.last and page_obj.has_next %}
+<div class="col" hx-get="{% url 'frontend:index' %}?page={{ page_obj.number|add:1 }}" hx-trigger="revealed"
+    hx-swap="afterend" hx-target="this">
+    {% else %}
+    <div class="col">
+        {% endif %}
+        <div class="card mb-3" style="width: 19rem;">
+            <a href="{% url 'frontend:detail' tvshow=t.pk %}">
+                <img src="{{ t.cover_url }}" class="card-img-top" style="height: 30rem;">
+                <div class="carousel-caption" , style="background-color: rgba(0, 0, 0, 0.5); padding-bottom: 0;">
+                    <h5>{{ t.title }}</h5>
+                    <p><i class="bi bi-calendar-date"></i> {{ t.last_seen|date:"DATE_FORMAT" }}</p>
+                    <p>S{{ t.season }} / E{{ t.episode }}</p>
+                </div>
             </a>
-        </span>
+            <span class="position-absolute fixed-bottom text-end m-2">
+                <a class="btn btn-success margin-end" href="{% url 'frontend:inc-episode' tvshow=t.pk %}">
+                    <i class="bi bi-cloud-plus-fill"></i>
+                </a>
+            </span>
+        </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}

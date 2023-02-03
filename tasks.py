@@ -36,6 +36,11 @@ def nativefier(c):
 
 
 """
+
+scp rancher@192.168.0.64:/etc/rancher/k3s/k3s.yaml $HOME/.kube/config_k3s
+vim $HOME/.kube/config_k3s
+192.168.0.64
+
 pip install db-to-sqlite
 rm -f db.sqlite3 ; db-to-sqlite "postgres://$DB_USER:$DB_PASSWORD@$DB_HOST/showminder" db.sqlite3 --all
 """
