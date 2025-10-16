@@ -1,20 +1,29 @@
-FROM python:3.10
+FROM python:3.13-slim
+COPY --from=ghcr.io/astral-sh/uv:0.8.22@sha256:9874eb7afe5ca16c363fe80b294fe700e460df29a55532bbfea234a0f12eddb1 /uv /bin/uv
 
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONIOENCODING utf-8
-ENV DJANGO_SETTINGS_MODULE showminder.settings
+ENV \
+    PYTHONUNBUFFERED=1 \
+    PYTHONIOENCODING=utf-8 \
+    DJANGO_SETTINGS_MODULE=showminder.settings \
+    # disable uv cache. it doesn't make sense in a container
+    UV_NO_CACHE=true \
+    UV_NO_MANAGED_PYTHON=true \
+    UV_PYTHON_DOWNLOADS=never
+
 
 RUN adduser --shell /bin/sh --disabled-password chris
 WORKDIR /usr/src/app
 
-ADD requirements*.txt /usr/src/app/
-RUN pip install --no-cache-dir -r requirements.txt
+ADD LICENSE README.md ./
 
-ADD . /usr/src/app
-RUN mkdir /tmp/staticfiles && /usr/src/app/showminder/manage.py collectstatic --noinput
+ADD pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-group dev
+
+ADD showminder ./showminder
+RUN uv run ./showminder/manage.py collectstatic --noinput
 
 EXPOSE 8000
 
 USER chris
 
-CMD ["honcho", "start"]
+CMD ["uv", "run", "honcho", "start"]

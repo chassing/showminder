@@ -1,2 +1,0 @@
--r requirements-django.txt
--r requirements-showminder.txt

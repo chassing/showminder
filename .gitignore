@@ -8,3 +8,4 @@ showminder_*.sql
 .vscode
 *.sqlite3
 *.sql
+.venv/

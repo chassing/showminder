@@ -1,3 +1,0 @@
-requests==2.26.*
-parse-torrent-name==1.1.1
-tmdbsimple==2.8.*

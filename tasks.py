@@ -7,12 +7,8 @@ from invoke import task
 def backup(c):
     """Create a backup of prod database."""
     # conda install postgresql
-    postgres_password = c.run(
-        'kubectl get secret --namespace showminder showminder-postgres-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode',
-        pty=True,
-    )
     c.run(
-        f"pg_dump --dbname='postgres://postgres:{postgres_password.stdout}@192.168.0.64:5432/showminder' --file=backup/showminder.{dt.now():%Y-%m-%d}.sql",
+        f"pg_dump --dbname='postgres://postgres:secure-password@192.168.0.69:5432/showminder' --file=backup/showminder.{dt.now():%Y-%m-%d}.sql",
     )
     c.run("ls -lrt backup")
 
@@ -21,18 +17,19 @@ def backup(c):
 def release(c):
     c.run("docker build -t chassing/showminder:latest .", pty=True)
     c.run("docker push chassing/showminder:latest", pty=True)
-    c.run("kubectl rollout restart deployment showminder")
+    c.run("kubectl --namespace showminder rollout restart deployment showminder")
 
 
 @task
 def nativefier(c):
     # brew install nativefier
     c.run(
-        "nativefier http://showminder.ca-net.org . --name ShowMinder --inject window.js --inject site.css --title-bar-style 'hiddenInset' --hide-window-frame --tray --darwin-dark-mode-support",
+        "nativefier http://showminder.ca-net.org . --name ShowMinder --inject window.js --inject site.css --title-bar-style 'hiddenInset' --hide-window-frame --darwin-dark-mode-support",
         pty=True,
     )
     c.run("rm -rf /Users/cassing/bin/ShowMinder.app")
     c.run("mv ShowMinder-darwin-x64/ShowMinder.app /Users/cassing/bin/")
+    c.run("rm -rf ShowMinder-darwin-x64")
 
 
 """
