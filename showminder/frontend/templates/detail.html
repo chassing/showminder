@@ -3,15 +3,12 @@
 {% load bootstrap5 %}
 {% load show_tags %}
 
-{% block navbar_right %}
-<a class="sm-navbar-back" href="{% url 'frontend:index' %}">
-    <i class="bi bi-arrow-left"></i> Back to shows
-</a>
-{% endblock %}
-
 {% block content %}
 <div class="sm-detail-hero">
     <div class="sm-detail-hero-bg"></div>
+    <a class="sm-detail-back-btn" href="{% url 'frontend:index' %}">
+        <i class="bi bi-arrow-left"></i>
+    </a>
     <div class="sm-detail-hero-content">
         <img src="{{ tvshow.cover_url }}" class="sm-detail-poster" alt="{{ tvshow.title }}">
         <div class="sm-detail-info">

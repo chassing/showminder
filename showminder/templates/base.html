@@ -4,7 +4,7 @@
 
 {% block bootstrap_extra_head %}
 
-<link href="{% static 'css/project.css' %}?v=2" rel="stylesheet">
+<link href="{% static 'css/project.css' %}?v=6" rel="stylesheet">
 
 <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/apple-icon-57x57.png' %}">
 <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/apple-icon-60x60.png' %}">
@@ -27,25 +27,6 @@
 {% endblock %}
 
 {% block bootstrap_content %}
-{% if user.is_authenticated %}
-<nav class="sm-navbar">
-    <a class="sm-navbar-brand" href="{% url 'frontend:index' %}">
-        <img src="{% static 'images/apple-icon-57x57.png' %}" alt="ShowMinder">
-        <span>ShowMinder</span>
-    </a>
-    <div class="sm-navbar-actions">
-        {% block navbar_right %}
-        <form method="GET" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-            <input class="sm-navbar-search" type="search" name="search" placeholder="Search shows..." aria-label="Search">
-        </form>
-        <a class="sm-btn-add-nav" href="{% url 'frontend:add' %}" aria-label="Add show">
-            <i class="bi bi-plus"></i>
-        </a>
-        {% endblock %}
-    </div>
-</nav>
-{% endif %}
-
 <div class="sm-content">
     {% if api_notifications %}
     {% for m in api_notifications %}

@@ -4,7 +4,21 @@
 {% load bootstrap5 %}
 
 {% block content %}
-<div class="sm-grid">
+<div class="sm-grid" id="show-grid">
     {% include "partials/series-list.html" %}
+</div>
+<div style="height: 120px;"></div>
+
+<div class="sm-floating-bar">
+    <div class="sm-floating-search">
+        <i class="bi bi-search"></i>
+        <input type="search" name="search" placeholder="Filter shows..."
+            hx-get="{% url 'frontend:index' %}" hx-target="#show-grid" hx-swap="innerHTML"
+            hx-trigger="keyup changed delay:300ms"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <a class="sm-floating-add" href="{% url 'frontend:add' %}" aria-label="Add show">
+        <i class="bi bi-plus"></i>
+    </a>
 </div>
 {% endblock %}

@@ -2,14 +2,11 @@
 
 {% load bootstrap5 %}
 
-{% block navbar_right %}
-<a class="sm-navbar-back" href="{% url 'frontend:index' %}">
-    <i class="bi bi-arrow-left"></i> Back to shows
-</a>
-{% endblock %}
-
 {% block content %}
 <div class="sm-add-hero">
+    <a class="sm-detail-back-btn" href="{% url 'frontend:index' %}">
+        <i class="bi bi-arrow-left"></i>
+    </a>
     <h1>Add a new show</h1>
     <p>Search TMDB to find and import a TV show</p>
 </div>
