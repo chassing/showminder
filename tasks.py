@@ -8,7 +8,7 @@ def backup(c):
     """Create a backup of prod database."""
     # conda install postgresql
     c.run(
-        f"pg_dump --dbname='postgres://postgres:secure-password@192.168.0.69:5432/showminder' --file=backup/showminder.{dt.now():%Y-%m-%d}.sql",
+        f"pg_dump-18 --dbname='postgres://postgres:secure-password@192.168.0.69:5432/showminder' --file=backup/showminder.{dt.now():%Y-%m-%d}.sql",
     )
     c.run("ls -lrt backup")
 

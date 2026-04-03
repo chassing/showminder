@@ -1,0 +1,32 @@
+[project]
+name = "showminder"
+version = "0.1.0"
+requires-python = ">=3.13"
+description = "ShowMinder is a tool to manage and keep track of your watched TV shows."
+authors = [{ name = "Christian Assing", email = "chris@ca-net.org" }]
+license = { text = "MIT License" }
+readme = "README.md"
+dependencies = [
+    # core
+    "django==6.0.3",
+    "django-bootstrap-v5",
+    "django-environ==0.13.0",
+    "django-htmx>=1.26.0",
+    "gunicorn==25.3.0",
+    "honcho==2.0.0",
+    "psycopg2-binary==2.9.11",
+    "pygments==2.20.0",
+    "whitenoise==6.12.0",
+    # showminder
+    "requests==2.33.1",
+    "parse-torrent-name==1.1.1",
+    "tmdbsimple==2.9.1",
+]
+
+[tool.uv.sources]
+# This version fixes some Django5 compatibility issues
+django-bootstrap-v5 = { git = "https://github.com/math-a3k/django-bootstrap-v5.git" }
+
+
+[dependency-groups]
+dev = ["invoke>=2.2.1", "pytest>=8.4.2", "pytest-django>=4.11.1"]

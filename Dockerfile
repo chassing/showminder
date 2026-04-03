@@ -14,7 +14,7 @@ ENV \
 RUN adduser --shell /bin/sh --disabled-password chris
 WORKDIR /usr/src/app
 
-ADD LICENSE README.md ./
+ADD LICENSE README.md Procfile ./
 
 ADD pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-group dev
