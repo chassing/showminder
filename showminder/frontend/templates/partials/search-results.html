@@ -1,18 +1,22 @@
 {% if results %}
-<div class="row">
+<div class="sm-search-results">
     {% for tv in results %}
-    <div class="col">
-        <div class="card mb-3" style="width: 19rem; cursor: pointer;"
-            hx-post="{% url 'frontend:htmx-add-tv' tmdb_id=tv.tmdb_id %}">
-            <img src="{{ tv.cover_url }}" class="card-img-top" style="height: 30rem;">
-            <div class="carousel-caption d-block bg-dark bg-opacity-50">
-                <h5>{{ tv.title }}</h5>
-                <p><i class="bi bi-calendar-date"></i> {{ tv.release_date }}</p>
+    <div class="sm-search-result" hx-post="{% url 'frontend:htmx-add-tv' tmdb_id=tv.tmdb_id %}">
+        <img src="{{ tv.cover_url }}" class="sm-search-result-poster" alt="{{ tv.title }}">
+        <div class="sm-search-result-info">
+            <h4 class="sm-search-result-title">{{ tv.title }}</h4>
+            <div class="sm-search-result-meta">
+                {% if tv.release_date %}{{ tv.release_date|date:"Y" }} · {% endif %}{{ tv.genres|default:"" }}
+            </div>
+            <div class="sm-search-result-rating">
+                <span class="star">★</span>
+                <span>{{ tv.rating }}</span>
             </div>
         </div>
+        <button class="sm-btn sm-btn-green" type="button">+ Add</button>
     </div>
     {% endfor %}
 </div>
 {% else %}
-<p>No search results</p>
+<p class="sm-no-results">No search results</p>
 {% endif %}

@@ -4,7 +4,7 @@
 
 {% block bootstrap_extra_head %}
 
-<link href="{% static 'css/project.css' %}" rel="stylesheet">
+<link href="{% static 'css/project.css' %}?v=2" rel="stylesheet">
 
 <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/apple-icon-57x57.png' %}">
 <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/apple-icon-60x60.png' %}">
@@ -15,87 +15,50 @@
 <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/apple-icon-144x144.png' %}">
 <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/apple-icon-152x152.png' %}">
 <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-icon-180x180.png' %}">
-<!-- safari pinned tab -->
 <link rel="mask-icon" href="{% static 'images/apple-icon-57x57.png' %}">
 <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/android-icon-192x192.png' %}">
 <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
 <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicon-96x96.png' %}">
 <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
 <link rel="manifest" href="{% static 'images/manifest.json' %}">
-<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileColor" content="#0d1117">
 <meta name="msapplication-TileImage" content="{% static 'images/ms-icon-144x144.png' %}">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#0d1117">
 {% endblock %}
 
 {% block bootstrap_content %}
 {% if user.is_authenticated %}
-<!-- nav only if user is logged in -->
-<nav class="navbar navbar-expand navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'frontend:index' %}">
-            <img src="{% static 'images/apple-icon-57x57.png' %}" alt="" width="30" height="24">
-            <div class="d-none d-md-inline">ShowMinder</div>
+<nav class="sm-navbar">
+    <a class="sm-navbar-brand" href="{% url 'frontend:index' %}">
+        <img src="{% static 'images/apple-icon-57x57.png' %}" alt="ShowMinder">
+        <span>ShowMinder</span>
+    </a>
+    <div class="sm-navbar-actions">
+        {% block navbar_right %}
+        <form method="GET" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <input class="sm-navbar-search" type="search" name="search" placeholder="Search shows..." aria-label="Search">
+        </form>
+        <a class="sm-btn-add-nav" href="{% url 'frontend:add' %}" aria-label="Add show">
+            <i class="bi bi-plus"></i>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a href="https://www.themoviedb.org/tv" class="dropdown-item""
-                                target=" _blank">TMdb</a>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-
-                    </ul>
-                </li> -->
-            </ul>
-            <form class="d-flex me-2" method="GET" autocomplete="off" autocorrect="off" autocapitalize="off"
-                spellcheck="false">
-                <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-success" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
-            <a class="btn btn-success" href="{% url 'frontend:add' %}"><i class="bi bi-plus-square"></i> </a>
-        </div>
+        {% endblock %}
     </div>
 </nav>
 {% endif %}
 
-<div class="container-fluid">
+<div class="sm-content">
     {% if api_notifications %}
-    <div class="container-fluid">
-        {% for m in api_notifications %}
-        <div class="alert alert-warning" role="alert">
-            <h2 style="margin-top: 0">
-                {{ m.subject }}
-            </h2>
-            <p>
-                {{ m.message }}
-            </p>
-            <p>
-                <a class="btn btn-danger" href="{% url 'api:delete-notification' pk=m.pk %}">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </a>
-            </p>
-        </div>
-        {% endfor %}
+    {% for m in api_notifications %}
+    <div class="sm-notification">
+        <h2>{{ m.subject }}</h2>
+        <p>{{ m.message }}</p>
+        <a class="sm-btn sm-btn-danger" href="{% url 'api:delete-notification' pk=m.pk %}">
+            <i class="bi bi-x-lg"></i> Dismiss
+        </a>
     </div>
+    {% endfor %}
     {% endif %}
 
-    <h1>{% block title %}{% endblock %}</h1>
-
-    {% block content %}(no content){% endblock %}
+    {% block content %}{% endblock %}
 </div>
 {% endblock %}

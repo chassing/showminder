@@ -1,9 +1,9 @@
 /* header is draggable... */
-nav {
+.sm-navbar {
     -webkit-app-region: drag;
 }
 
 /* but any buttons or anything else inside the header shouldn't be draggable */
-nav button, a, input {
+.sm-navbar button, .sm-navbar a, .sm-navbar input {
     -webkit-app-region: no-drag;
 }

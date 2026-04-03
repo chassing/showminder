@@ -2,17 +2,23 @@
 
 {% load bootstrap5 %}
 
-{% block title %}Import new TV Show{% endblock %}
+{% block navbar_right %}
+<a class="sm-navbar-back" href="{% url 'frontend:index' %}">
+    <i class="bi bi-arrow-left"></i> Back to shows
+</a>
+{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="d-flex m-1 mb-2">
-        <input type="text" class="form-control" style="width: 20rem;"
-            hx-post="{% url 'frontend:htmx-search-tmdb-for-add' %}" hx-target='#results'
-            hx-trigger="keyup changed delay:500ms" name="search" class="form-control-sm mr-2"
-            placeholder="Search tv show ..." autocomplete="off" autocorrect="off" autocapitalize="off"
-            spellcheck="false" />
-    </div>
-    <div id="results"></div>
+<div class="sm-add-hero">
+    <h1>Add a new show</h1>
+    <p>Search TMDB to find and import a TV show</p>
 </div>
+<div class="sm-add-search">
+    <input type="text"
+        hx-post="{% url 'frontend:htmx-search-tmdb-for-add' %}" hx-target="#results"
+        hx-trigger="keyup changed delay:500ms" name="search"
+        placeholder="Search for a TV show..." autocomplete="off" autocorrect="off" autocapitalize="off"
+        spellcheck="false" />
+</div>
+<div id="results"></div>
 {% endblock %}
