@@ -3,17 +3,15 @@
     {% for tv in results %}
     <div class="sm-search-result" hx-post="{% url 'frontend:htmx-add-tv' tmdb_id=tv.tmdb_id %}">
         <img src="{{ tv.cover_url }}" class="sm-search-result-poster" alt="{{ tv.title }}">
-        <div class="sm-search-result-info">
-            <h4 class="sm-search-result-title">{{ tv.title }}</h4>
-            <div class="sm-search-result-meta">
-                {% if tv.release_date %}{{ tv.release_date|date:"Y" }} · {% endif %}{{ tv.genres|default:"" }}
+        <div class="sm-search-result-bottom">
+            <div class="sm-search-result-info">
+                <h4 class="sm-search-result-title">{{ tv.title }}</h4>
+                <div class="sm-search-result-meta">
+                    {% if tv.release_date %}{{ tv.release_date|date:"Y" }}{% endif %}
+                </div>
             </div>
-            <div class="sm-search-result-rating">
-                <span class="star">★</span>
-                <span>{{ tv.rating }}</span>
-            </div>
+            <button class="sm-btn sm-btn-green" type="button">+ Add</button>
         </div>
-        <button class="sm-btn sm-btn-green" type="button">+ Add</button>
     </div>
     {% endfor %}
 </div>

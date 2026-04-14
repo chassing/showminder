@@ -1,5 +1,5 @@
 import logging
-from datetime import date
+from datetime import UTC, datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -79,7 +79,7 @@ def inc_season_view(request, tvshow):
     t = get_object_or_404(TvShow, pk=tvshow)
     t.season += 1
     t.episode = 1
-    t.last_seen = date.today()
+    t.last_seen = datetime.now(tz=UTC).date()
     t.save()
     return redirect("frontend:index")
 
@@ -88,7 +88,7 @@ def inc_season_view(request, tvshow):
 def inc_episode_view(request, tvshow):
     t = get_object_or_404(TvShow, pk=tvshow)
     t.episode += 1
-    t.last_seen = date.today()
+    t.last_seen = datetime.now(tz=UTC).date()
     t.save()
     return redirect("frontend:index")
 

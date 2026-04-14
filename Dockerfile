@@ -12,6 +12,10 @@ ENV \
 
 
 RUN adduser --shell /bin/sh --disabled-password chris
+RUN apt update && apt install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/src/app
 
 ADD LICENSE README.md Procfile ./
