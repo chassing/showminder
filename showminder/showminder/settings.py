@@ -46,6 +46,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
+    "showminder.middleware.NoCacheHTMLMiddleware",
 ]
 
 ROOT_URLCONF = "showminder.urls"
