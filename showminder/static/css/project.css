@@ -592,30 +592,34 @@ body {
 
 @media (max-width: 480px) {
   .sm-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 10px;
     padding: 12px;
   }
 
   .sm-card-info {
-    padding: 10px;
+    padding: 14px;
   }
 
   .sm-card-title {
-    font-size: 13px;
+    font-size: 18px;
+  }
+
+  .sm-card-date {
+    font-size: 14px;
   }
 
   .sm-card-badge {
-    font-size: 12px;
-    padding: 4px 10px;
+    font-size: 18px;
+    padding: 8px 16px;
   }
 
   .sm-card-episode-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-    bottom: 10px;
-    right: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    bottom: 14px;
+    right: 14px;
   }
 
   .sm-add-hero {
