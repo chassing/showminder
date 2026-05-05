@@ -504,6 +504,31 @@ body {
   color: var(--text-muted);
 }
 
+.sm-floating-search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.sm-search-clear {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.sm-search-clear:hover {
+  color: var(--text-primary);
+}
+
 .sm-floating-add {
   background: var(--accent-green);
   width: 46px;

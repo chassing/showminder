@@ -12,10 +12,15 @@
 <div class="sm-floating-bar">
     <div class="sm-floating-search">
         <i class="bi bi-search"></i>
-        <input type="search" name="search" placeholder="Filter shows..."
+        <input type="search" name="search" id="search-input" placeholder="Filter shows..."
             hx-get="{% url 'frontend:index' %}" hx-target="#show-grid" hx-swap="innerHTML"
-            hx-trigger="keyup changed delay:300ms"
-            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            hx-trigger="keyup changed delay:300ms, search"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            oninput="document.getElementById('search-clear').style.display = this.value ? 'flex' : 'none'">
+        <button type="button" id="search-clear" class="sm-search-clear" style="display:none"
+            onclick="var input = document.getElementById('search-input'); input.value = ''; this.style.display = 'none'; htmx.trigger(input, 'search');">
+            <i class="bi bi-x"></i>
+        </button>
     </div>
     <a class="sm-floating-add" href="{% url 'frontend:add' %}" aria-label="Add show">
         <i class="bi bi-plus"></i>
