@@ -44,7 +44,7 @@
                 <div class="sm-detail-refresh-search">
                     <input type="text"
                         hx-post="{% url 'frontend:htmx-search-tmdb-for-refresh' tvshow=tvshow.pk %}" hx-target="#results"
-                        hx-trigger="keyup changed delay:500ms" name="search"
+                        hx-trigger="input changed delay:500ms, keyup[key=='Enter']" name="search"
                         placeholder="Search to refresh from..." autocomplete="off" autocorrect="off" autocapitalize="off"
                         spellcheck="false" />
                 </div>

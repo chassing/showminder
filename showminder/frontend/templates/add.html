@@ -13,7 +13,7 @@
 <div class="sm-add-search">
     <input type="text"
         hx-post="{% url 'frontend:htmx-search-tmdb-for-add' %}" hx-target="#results"
-        hx-trigger="keyup changed delay:500ms" name="search"
+        hx-trigger="input changed delay:500ms, keyup[key=='Enter']" name="search"
         placeholder="Search for a TV show..." autocomplete="off" autocorrect="off" autocapitalize="off"
         spellcheck="false" />
 </div>
