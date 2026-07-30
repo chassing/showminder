@@ -20,6 +20,13 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+# Traefik terminates TLS and proxies to gunicorn over plain HTTP inside the
+# cluster, so Django must be told to trust its X-Forwarded-Proto header to
+# correctly detect HTTPS requests (otherwise request.is_secure() is always
+# False, which breaks CSRF's Origin-header check for POST requests made over
+# real HTTPS in prod). Safe here because Traefik is the sole ingress path.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Application definition
 
