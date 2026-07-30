@@ -16,7 +16,10 @@ def backup(c):
 
 @task
 def release(c):
-    c.run("docker build -t chassing/showminder:latest .", pty=True)
+    c.run(
+        "DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t chassing/showminder:latest .",
+        pty=True,
+    )
     c.run("docker push chassing/showminder:latest", pty=True)
     c.run("kubectl --namespace showminder rollout restart deployment showminder")
 
